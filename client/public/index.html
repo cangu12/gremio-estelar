@@ -1,1 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gremio Estelar</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Open+Sans:wght@400&display=swap" rel="stylesheet">
+  <style>
+    .bg-recepcion { background-image: url('./assets/fondo-recepcion.png'); background-size: cover; background-position: center; }
+    .id-card { background: #F5F5F5; border: 2px solid #D8E2DC; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .portal { border-radius: 50%; box-shadow: 0 0 30px #4B2E83; background: linear-gradient(to bottom, #1B263B, #4B2E83); }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+    .font-opensans { font-family: 'Open Sans', sans-serif; }
+    .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+  </style>
+</head>
+<body class="bg-[#1B263B] text-[#F5F5F5] font-opensans">
+  <div id="root"></div>
+  <script type="text/babel">
+    const App = () => {
+      const [showPrompt, setShowPrompt] = React.useState(true);
+      const [showRegister, setShowRegister] = React.useState(false);
+      const [showHome, setShowHome] = React.useState(false);
+      const [showPortal, setShowPortal] = React.useState(false);
 
+      const handleYes = () => {
+        setShowPrompt(false);
+        setShowRegister(true);
+      };
+      const handleNo = () => {
+        setShowPrompt(false);
+        setShowHome(true);
+      };
+      const handleRegisterSubmit = (e) => {
+        e.preventDefault();
+        // Placeholder: Conectar a backend /api/register
+        console.log('Registro enviado');
+        setShowRegister(false);
+        setShowHome(true);
+      };
+
+      return (
+        <div className="min-h-screen bg-recepcion">
+          {showPrompt && (
+            <div className="flex flex-col items-center justify-center h-screen px-4">
+              <img src="./assets/pawco.png" alt="Pawco" className="w-48 h-48 mb-4 rounded-full shadow-lg animate-pulse-slow" />
+              <p className="text-2xl md:text-3xl font-cinzel text-[#F5F5F5] mb-6 text-center">
+                ¿Eres un nuevo aventurero? ¡Regístrate y disfruta tu estadía!
+              </p>
+              <div className="space-x-4">
+                <button onClick={handleYes} className="bg-[#8B6F47] hover:bg-[#A68A64] text-[#F5F5F5] px-6 py-3 rounded-lg font-bold transition">
+                  Sí, quiero unirme
+                </button>
+                <button onClick={handleNo} className="bg-[#4B2E83] hover:bg-[#D8E2DC] text-[#F5F5F5] px-6 py-3 rounded-lg font-bold transition">
+                  No, estoy de paso
+                </button>
+              </div>
+            </div>
+          )}
+          {showRegister && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center px-4">
+              <div className="id-card p-6 md:p-8 rounded-xl w-full max-w-md">
+                <h2 className="text-2xl font-cinzel text-[#1B263B] mb-4 text-center">Tarjeta de Identidad</h2>
+                <form onSubmit={handleRegisterSubmit}>
+                  <input name="email" type="email" placeholder="Email" className="w-full p-3 mb-3 border border-[#D8E2DC] rounded-lg text-[#1B263B]" required />
+                  <input name="username" type="text" placeholder="Username" className="w-full p-3 mb-3 border border-[#D8E2DC] rounded-lg text-[#1B263B]" required />
+                  <input name="password" type="password" placeholder="Contraseña" className="w-full p-3 mb-3 border border-[#D8E2DC] rounded-lg text-[#1B263B]" required />
+                  <input type="file" accept="image/*" className="w-full mb-3 text-[#1B263B]" />
+                  <button type="submit" className="bg-[#8B6F47] hover:bg-[#A68A64] text-[#F5F5F5] px-6 py-3 rounded-lg w-full font-bold">
+                    Unirse al Gremio
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+          {showHome && (
+            <div>
+              <header className="bg-[#8B6F47] p-4 flex justify-between items-center">
+                <img src="./assets/logo-gremio.png" alt="Logo Gremio Estelar" className="h-12" />
+                <nav className="flex space-x-4">
+                  <a href="#" className="text-[#F5F5F5] hover:text-[#D8E2DC] font-bold">Home</a>
+                  <a href="#" className="text-[#F5F5F5] hover:text-[#D8E2DC] font-bold">VTubers</a>
+                  <a href="#" className="text-[#F5F5F5] hover:text-[#D8E2DC] font-bold">Grupos</a>
+                  <a href="#" className="text-[#F5F5F5] hover:text-[#D8E2DC] font-bold">Leaderboard</a>
+                </nav>
+              </header>
+              <section className="p-8 text-center">
+                <p className="text-2xl font-cinzel text-[#F5F5F5] mb-6">
+                  ¿Estás de paso? ¡Pues mira todo lo que tenemos!
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                  <div
+                    className="bg-[#F5F5F5] text-[#1B263B] p-4 rounded-lg hover:scale-105 transition-transform cursor-pointer"
+                    onClick={() => setShowPortal(true)}
+                  >
+                    <img src="./assets/pawco.png" alt="Pawco" className="w-full h-40 object-cover rounded" />
+                    <h3 className="text-xl font-cinzel mt-2">Pawco</h3>
+                    <p className="text-sm">Recepcionista, Gaming</p>
+                    <button className="mt-2 bg-[#4B2E83] hover:bg-[#D8E2DC] text-[#F5F5F5] px-4 py-2 rounded">
+                      Ver Perfil
+                    </button>
+                  </div>
+                </div>
+              </section>
+              <section className="p-8 bg-[#4B2E83] text-center">
+                <h2 className="text-2xl font-cinzel mb-4">Top Donadores</h2>
+                <div className="bg-[#F5F5F5] text-[#1B263B] p-4 rounded-lg max-w-md mx-auto">
+                  <div className="flex justify-between"><span>#1 Aventurero1</span><span>🌟</span></div>
+                  <div className="flex justify-between"><span>#2 Aventurero2</span><span>🥈</span></div>
+                </div>
+              </section>
+            </div>
+          )}
+          {showPortal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center px-4">
+              <div className="portal p-6 md:p-8 w-full max-w-4xl text-[#F5F5F5]">
+                <button onClick={() => setShowPortal(false)} className="absolute top-2 right-2 text-2xl">×</button>
+                <h2 className="text-2xl font-cinzel mb-4">Pawco - Detalles</h2>
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="md:w-1/2">
+                    <img src="./assets/pawco-model1.png" alt="Modelo Principal" className="w-full h-48 object-cover rounded" />
+                    <div className="flex space-x-2 mt-2">
+                      <img src="./assets/pawco-model2.png" alt="Modelo 2" className="w-20 h-20 object-cover rounded" />
+                      <img src="./assets/pawco-model3.png" alt="Modelo 3" className="w-20 h-20 object-cover rounded" />
+                    </div>
+                  </div>
+                  <div className="md:w-1/2">
+                    <p className="text-sm mb-2">Bio: Recepcionista estelar, amante de juegos y aventuras cósmicas.</p>
+                    <p className="text-sm mb-2">Streams: twitch.tv/pawco</p>
+                    <p className="text-sm mb-2">Seguidores: 1,000 | Donaciones: $500</p>
+                    <p className="text-sm">Horario: Lunes 8PM, Jueves 7PM</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
